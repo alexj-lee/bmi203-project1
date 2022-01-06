@@ -9,7 +9,7 @@ build-backend = "flit_core.buildapi"
 name = 'bmi203-week1project-AlexLee'
 authors = [{
 	name = 'Alex Lee',
-	email = 'alex.lee@ucsf.edu'
+	email = 'alex.lee@ucsf.edu',
 	}]
 readme = "README.md"
 license = {file = "LICENSE"}
