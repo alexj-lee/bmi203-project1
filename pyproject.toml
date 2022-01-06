@@ -6,7 +6,7 @@ requires = [
 build-backend = "flit_core.buildapi"
 
 [project]
-name = 'bmi203-week1project-AlexLee'
+name = "seqparser"
 authors = [{name = "Alex Lee", email = "alex.lee@ucsf.edu"}]
 readme = "README.md"
 license = {file = "LICENSE"}
