@@ -138,8 +138,11 @@ class FastaParser(Parser):
 
         seq_name = None
 
-        for line in f_obj:
+
+        for idx, line in enumerate(f_obj):
             line = line.strip()
+            if line == '':
+                raise ValueError(f'Got an empty line for {f_obj.name} @ line {idx+1}')
             if line.startswith(">"):
                 seq_name = line[1:]
                 continue
@@ -160,20 +163,22 @@ class FastqParser(Parser):
         seq_name = None
         seq = None
 
-        for line in f_obj:
+        for idx, line in enumerate(f_obj):
             line = line.strip()
+            if line == '':
+                raise ValueError(f'Got an empty line for {f_obj.name} @ line {idx+1}')
             if line == "+":
-                continue
+                continue # skip this line 
 
-            if line.startswith("@"):
+
+            if line.startswith("@"): # if its a header line, we'll store it 
                 seq_name = line[1:]
-                reading = True
                 continue
 
-            if read_qual is True:
+            if read_qual is True: # if read_qual is True, then we'll assume the line is a sequence
                 seq = line
                 read_qual = False
             else:
-                quality = line
+                # we assume that quality will always be after the seq, so if we get here and read_qual is False then we can just return the tuple
                 yield (seq_name, seq, line)
                 read_qual = True

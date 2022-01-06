@@ -6,7 +6,7 @@ def main(print_delim=True):
     """
     The main function
     """
-    data_dir = pathlib.Path(__file__).parent / "data"
+    data_dir = pathlib.Path(__file__).resolve().parent / "data"
     fasta_file = data_dir / "test.fa"
     fastq_file = data_dir / "test.fq"
 
