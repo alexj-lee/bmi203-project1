@@ -1,5 +1,5 @@
 import io
-from typing import Tuple, Union, Generator
+from typing import Tuple, Union, Iterator
 
 
 class Parser:
@@ -110,7 +110,7 @@ class Parser:
 
     def _get_record(
         self, f_obj: io.TextIOWrapper
-    ) -> Generator[Union[Tuple[str, str], Tuple[str, str, str]]]:
+    ) -> Iterator[Union[Tuple[str, str], Tuple[str, str, str]]]:
         """
         a method to be overridden by inherited classes.
         """
@@ -128,7 +128,7 @@ class FastaParser(Parser):
 
     delimiter = ">"
 
-    def _get_record(self, f_obj: io.TextIOWrapper) -> Generator[Tuple[str, str]]:
+    def _get_record(self, f_obj: io.TextIOWrapper) -> Iterator[Tuple[str, str]]:
         """
         returns the next fasta record
         """
@@ -151,7 +151,7 @@ class FastqParser(Parser):
     Fastq Specific Parsing
     """
 
-    def _get_record(self, f_obj: io.TextIOWrapper) -> Generator[Tuple[str, str, str]]:
+    def _get_record(self, f_obj: io.TextIOWrapper) -> Iterator[Tuple[str, str, str]]:
         """
         returns the next fastq record
         """
