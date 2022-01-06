@@ -1,5 +1,5 @@
 import io
-from typing import Tuple, Union
+from typing import Tuple, Union, Generator
 
 
 class Parser:
@@ -93,27 +93,24 @@ class Parser:
         # the interpretation of the following code is that for the lifetime of the filebuffer
         # returned by the `open` function it will be accessible as the variable `f_obj`
 
-        if self.store:
+        if self.store is True:
             self.sequences = []
             with open(self.filename, "r") as f_obj:
-
-                # this loop will break at some point!
-                # but I will leave it up to you to implement the fix!
-
-                # You will need to look at the `Try` / `Except` keywords in python
-                # and implement an exception for the error you will find in
-                # the error message you receive.
-                rec = self.get_record(f_obj)
+                rec = self.get_record(
+                    f_obj
+                )  # will be a generator that yields tuples of strings
                 for seq in rec:
-                    self.sequences.append(seq)
+                    self.sequences.append(
+                        seq
+                    )  # store them in the object so we don't have to open the file if the object is iterated over twice
                     yield seq
                 self.store = False
-        else:
-            yield from self.sequences
+        else:  # if we already stored the result, we can just loop back over sequences
+            yield from self.sequences  # list of tuples of strings
 
     def _get_record(
         self, f_obj: io.TextIOWrapper
-    ) -> Union[Tuple[str, str], Tuple[str, str, str]]:
+    ) -> Generator[Union[Tuple[str, str], Tuple[str, str, str]]]:
         """
         a method to be overridden by inherited classes.
         """
@@ -131,18 +128,17 @@ class FastaParser(Parser):
 
     delimiter = ">"
 
-    def _get_record(self, f_obj: io.TextIOWrapper) -> Tuple[str, str]:
+    def _get_record(self, f_obj: io.TextIOWrapper) -> Generator[Tuple[str, str]]:
         """
         returns the next fasta record
         """
 
         seq_name = None
 
-
         for idx, line in enumerate(f_obj):
             line = line.strip()
-            if line == '':
-                raise ValueError(f'Got an empty line for {f_obj.name} @ line {idx+1}')
+            if line == "":
+                raise ValueError(f"Got an empty line for {f_obj.name} @ line {idx+1}")
             if line.startswith(">"):
                 seq_name = line[1:]
                 continue
@@ -155,7 +151,7 @@ class FastqParser(Parser):
     Fastq Specific Parsing
     """
 
-    def _get_record(self, f_obj: io.TextIOWrapper) -> Tuple[str, str, str]:
+    def _get_record(self, f_obj: io.TextIOWrapper) -> Generator[Tuple[str, str, str]]:
         """
         returns the next fastq record
         """
@@ -165,17 +161,18 @@ class FastqParser(Parser):
 
         for idx, line in enumerate(f_obj):
             line = line.strip()
-            if line == '':
-                raise ValueError(f'Got an empty line for {f_obj.name} @ line {idx+1}')
+            if line == "":
+                raise ValueError(f"Got an empty line for {f_obj.name} @ line {idx+1}")
             if line == "+":
-                continue # skip this line 
+                continue  # skip this line
 
-
-            if line.startswith("@"): # if its a header line, we'll store it 
+            if line.startswith("@"):  # if its a header line, we'll store it
                 seq_name = line[1:]
                 continue
 
-            if read_qual is True: # if read_qual is True, then we'll assume the line is a sequence
+            if (
+                read_qual is True
+            ):  # if read_qual is True, then we'll assume the line is a sequence
                 seq = line
                 read_qual = False
             else:

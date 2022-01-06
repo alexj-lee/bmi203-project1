@@ -18,7 +18,7 @@ def transcribe(seq: str, reverse: bool = True) -> str:
             if reverse:
                 err = err[:-1]  # remove period
                 err += "(reversed sequence)."
-                
+
             raise ValueError(
                 f"Nucleotide {nuc} at position {idx+1} for {seq} was not an allowed DNA nucleotide."
             )
