@@ -7,10 +7,9 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = 'bmi203-week1project-AlexLee'
-authors = [{
-	name = "Alex Lee",
-	email = "alex.lee@ucsf.edu",
-	}]
+authors = [
+    "Alex Lee <alex.lee@ucsf.edu>"
+]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
