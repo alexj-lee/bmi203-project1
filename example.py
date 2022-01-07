@@ -63,4 +63,4 @@ Since this is guaranteed you can execute your `main` function with
 the following if statement
 """
 if __name__ == "__main__":
-    main()
+    main(print_delim=True)
