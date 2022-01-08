@@ -22,6 +22,9 @@ def main(print_delim=True):
     delim = "-" * 50
     delim = "\n" + delim + "\n"
 
+    fasta_file = fasta_file.name
+    fastq_file = fastq_file.name
+    
     if print_delim:
         print(delim + f"Transcribing FASTA: {fasta_file}\n")
 
