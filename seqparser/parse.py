@@ -105,6 +105,10 @@ class Parser:
                     )  # store them in the object so we don't have to open the file if the object is iterated over twice
                     yield seq
                 self.store = False
+
+                if len(self.sequences) == 0:
+                    raise ValueError(f"File ({self.filename}) had 0 lines.")
+
         else:  # if we already stored the result, we can just loop back over sequences
             yield from self.sequences  # list of tuples of strings
 
