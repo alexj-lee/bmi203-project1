@@ -2,6 +2,7 @@
 from typing import Union
 
 TRANSCRIPTION_MAPPING = {"A": "U", "C": "G", "T": "A", "G": "C"}
+ALLOWED_NUC = TRANSCRIPTION_MAPPING.keys()
 
 
 def transcribe(seq: str, reverse: bool = False) -> str:
@@ -22,7 +23,7 @@ def transcribe(seq: str, reverse: bool = False) -> str:
         seq = seq[::-1]
 
     for idx, nuc in enumerate(seq):
-        if nuc not in TRANSCRIPTION_MAPPING.keys():
+        if nuc not in ALLOWED_NUC:
             err = f"Nucleotide {nuc} at position {idx+1} for {seq} was not an allowed DNA nucleotide."
             if reverse:
                 err = err[:-1]  # remove period
