@@ -23,7 +23,7 @@ def main(print_delim=True):
     delim = "\n" + delim + "\n"
 
     if print_delim:
-        print(delim + "\Transcribing FASTA: {fasta_file}\n")
+        print(delim + f"Transcribing FASTA: {fasta_file}\n")
 
     for seq_name, seq in fasta_parser:
         print(seq_name, transcribe(seq))

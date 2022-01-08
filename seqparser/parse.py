@@ -126,8 +126,6 @@ class FastaParser(Parser):
     Fasta Specific Parsing
     """
 
-    delimiter = ">"
-
     def _get_record(self, f_obj: io.TextIOWrapper) -> Iterator[Tuple[str, str]]:
         """
         returns the next fasta record
@@ -177,5 +175,5 @@ class FastqParser(Parser):
                 read_qual = False
             else:
                 # we assume that quality will always be after the seq, so if we get here and read_qual is False then we can just return the tuple
-                yield (seq_name, seq, line)
+                yield (seq_name, seq, line)  # line here is the quality string
                 read_qual = True
