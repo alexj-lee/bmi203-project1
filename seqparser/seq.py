@@ -1,7 +1,7 @@
 # DNA -> RNA Transcription
 from typing import Union
 
-ALLOWED_NUC = ("A", "T", "C", "G")
+TRANSCRIPTION_MAPPING = {"A": "U", "C": "G", "T": "A", "G": "C"}
 
 
 def transcribe(seq: str, reverse: bool = False) -> str:
@@ -17,11 +17,12 @@ def transcribe(seq: str, reverse: bool = False) -> str:
         raise ValueError("Seq can't be an empty string.")
 
     seq = seq.upper()
+
     if reverse:
         seq = seq[::-1]
 
     for idx, nuc in enumerate(seq):
-        if nuc not in ALLOWED_NUC:
+        if nuc not in TRANSCRIPTION_MAPPING.keys():
             err = f"Nucleotide {nuc} at position {idx+1} for {seq} was not an allowed DNA nucleotide."
             if reverse:
                 err = err[:-1]  # remove period
@@ -31,7 +32,7 @@ def transcribe(seq: str, reverse: bool = False) -> str:
                 f"Nucleotide {nuc} at position {idx+1} for {seq} was not an allowed DNA nucleotide."
             )
 
-    return seq.replace("T", "U")
+    return "".join(map(TRANSCRIPTION_MAPPING.get, seq))
 
 
 def reverse_transcribe(seq: str) -> str:
