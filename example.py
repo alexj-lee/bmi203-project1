@@ -35,7 +35,7 @@ def main(print_delim=True):
         print(delim + f"Transcribing FASTQ: {fastq_file}\n")
 
     for seq_name, seq, quality in fastq_parser:
-        print(seq_name, transcribe(seq), quality)
+        print(seq_name, transcribe(seq))
 
     # For each record of FastaParser, Reverse Transcribe the sequence
     # and print it to console
