@@ -1,5 +1,5 @@
 import io
-from typing import Tuple, Union, Iterator
+from typing import Tuple, Union, Iterator, Generator
 
 
 class Parser:
@@ -153,7 +153,9 @@ class FastqParser(Parser):
     Fastq Specific Parsing
     """
 
-    def _get_record(self, f_obj: io.TextIOWrapper) -> Iterator[Tuple[str, str, str]]:
+    def _get_record(
+        self, f_obj: io.TextIOWrapper
+    ) -> Generator[Tuple[str, str, str], None, None]:
         """
         returns the next fastq record
         """
