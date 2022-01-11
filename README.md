@@ -1,3 +1,5 @@
+![Tests](https://github.com/eelxela/bmi203-project1/actions/workflows/ci.yml/badge.svg)
+
 # Project 1
 Building a FAST[AQ] Parser + Building a DNA -> RNA Transcriber
 
