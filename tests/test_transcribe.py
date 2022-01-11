@@ -1,5 +1,5 @@
 # write tests for transcribes
-
+import pytest
 from seqparser import transcribe, reverse_transcribe
 
 SEQ = "ACTGAACCC"
@@ -27,6 +27,10 @@ def test_transcribe():
     transcribe function here.
     """
     assert transcribe(SEQ) == "UGACUUGGG"
+
+    with pytest.raises(ValueError):
+        transcribe("QATCG")
+        transcribe("")
 
 
 def test_reverse_transcribe():

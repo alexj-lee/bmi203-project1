@@ -6,6 +6,7 @@ from seqparser import (
 )
 
 import pathlib
+import pytest
 
 
 def test_freebie_parser_1():
@@ -68,6 +69,13 @@ def test_FastaParser():
 
         assert seqname == parsed_seq_name
         assert parsed_seq == seq
+
+    with pytest.raises(ValueError):
+        bad_fasta_path = pathlib.Path(__file__).resolve().parent / "bad.fa"
+        next(iter(FastaParser(bad_fasta_path)))
+
+        empty_fasta_path = pathlib.Path(__file__).resolve().parent / "empty.fa"
+        next(iter(FastaParser(empty_fasta_path)))
 
 
 def test_FastqParser():
