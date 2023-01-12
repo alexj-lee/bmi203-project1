@@ -93,24 +93,30 @@ class Parser:
         # the interpretation of the following code is that for the lifetime of the filebuffer
         # returned by the `open` function it will be accessible as the variable `f_obj`
 
-        if self.store is True:
-            self.sequences = []
-            with open(self.filename, "r") as f_obj:
-                rec = self.get_record(
-                    f_obj
-                )  # will be a generator that yields tuples of strings
-                for seq in rec:
-                    self.sequences.append(
-                        seq
-                    )  # store them in the object so we don't have to open the file if the object is iterated over twice
-                    yield seq
-                self.store = False
+        nseq = 0
+        with open(self.filename, "r") as f_obj:
+            rec = self.get_record(
+                f_obj
+            )  # will be a generator that yields tuples of strings
+            for seq in rec:
+                self.sequences.append(
+                    seq
+                )  # store them in the object so we don't have to open the file if the object is iterated over twice
+                yield seq
+                nseq += 1
+            self.store = False
 
-                if len(self.sequences) == 0:
-                    raise ValueError(f"File ({self.filename}) had 0 lines.")
+            if nseq == 0:
+                raise ValueError(f"File ({self.filename}) had 0 lines.")
 
-        else:  # if we already stored the result, we can just loop back over sequences
-            yield from self.sequences  # list of tuples of strings
+        # another way to do this with the original construction: 
+        #    while True:
+        #        rec = self.get_record(f_obj)
+        #        yield rec 
+        # is to implement for the FastaParser/FastqParser subclasses' _get_record
+        # functionality where you get (with `next(f_obj)`, for example) two lines
+        # at a time for the FastaParser and simply assume the first is the 
+        # header and the second is the sequence, or something similar.
 
     def _get_record(
         self, f_obj: io.TextIOWrapper
