@@ -98,6 +98,7 @@ class Parser:
             rec = self.get_record(
                 f_obj
             )  # will be a generator that yields tuples of strings
+
             for seq in rec:
                 yield seq
                 nseq += 1
