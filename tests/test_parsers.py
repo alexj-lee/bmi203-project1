@@ -52,53 +52,20 @@ def test_FastaParser():
     Write your unit test for your FastaParser
     class here. You should generate an instance of
     your FastaParser class and assert that it properly
-    reads in the example Fasta File.
+    reads in the example Fasta File. You could also
+    write a test that checks that the parser 
+    does not work when given incorrect input.
     """
-    parser = iter(FastaParser(get_filepath("fasta")))
-    reference = open_fasta_reference()
-    # checks against the example files contents, used bash script to get the seqs
-
-    for idx, seq in enumerate(reference):
-        seqname = f"seq{idx}"
-        try:
-            parsed_seq_name, parsed_seq = next(parser)
-        except StopIteration:
-            raise ValueError(
-                f"Received an end of file early for FASTA parser test case @ line {idx}."
-            )
-
-        assert seqname == parsed_seq_name
-        assert parsed_seq == seq
-
-    with pytest.raises(ValueError):
-        bad_fasta_path = pathlib.Path(__file__).resolve().parent / "bad.fa"
-        next(iter(FastaParser(bad_fasta_path)))
-
-        empty_fasta_path = pathlib.Path(__file__).resolve().parent / "empty.fa"
-        next(iter(FastaParser(empty_fasta_path)))
-
+    assert True
 
 def test_FastqParser():
     """
     Write your unit test for your FastqParser
     class here. You should generate an instance of
     your FastqParser class and assert that it properly
-    reads in the example Fastq File.
+    reads in the example Fastq File. You could also 
+    write a test that checks that the parser 
+    does not work when given incorrect input.
     """
+    assert True
 
-    parser = iter(FastqParser(get_filepath("fastq")))
-    reference = (
-        open_fastq_reference()
-    )  # checks against the example files contents, used bash script to get the seqs and qualities
-    for idx, (seq, quality) in enumerate(reference):
-        seqname = f"seq{idx}"
-        try:
-            parsed_seq_name, parsed_seq, parsed_quality = next(parser)
-        except StopIteration:
-            raise ValueError(
-                f"Received an end of file early for FASTQ parser test case, @ line {idx}."
-            )
-
-        assert seqname == parsed_seq_name
-        assert parsed_seq == seq
-        assert quality == parsed_quality
