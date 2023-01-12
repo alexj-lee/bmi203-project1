@@ -99,9 +99,6 @@ class Parser:
                 f_obj
             )  # will be a generator that yields tuples of strings
             for seq in rec:
-                self.sequences.append(
-                    seq
-                )  # store them in the object so we don't have to open the file if the object is iterated over twice
                 yield seq
                 nseq += 1
             self.store = False
